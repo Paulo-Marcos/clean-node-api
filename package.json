@@ -6,6 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "lint-staged": {
+    "*.js": [
+      "standard --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "pre-commit": "lint-staged"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Paulo-Marcos/clean-node-api.git"
@@ -17,6 +26,8 @@
   },
   "homepage": "https://github.com/Paulo-Marcos/clean-node-api#readme",
   "devDependencies": {
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
     "standard": "^16.0.3"
   }
 }
