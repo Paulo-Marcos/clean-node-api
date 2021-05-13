@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Paulo-Marcos/clean-node-api/issues"
   },
-  "homepage": "https://github.com/Paulo-Marcos/clean-node-api#readme"
+  "homepage": "https://github.com/Paulo-Marcos/clean-node-api#readme",
+  "devDependencies": {
+    "standard": "^16.0.3"
+  }
 }
