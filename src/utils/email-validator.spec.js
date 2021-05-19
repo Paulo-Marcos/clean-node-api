@@ -1,6 +1,8 @@
+const validator = require('validator')
+
 class EmailValidator {
   isValid (email) {
-    return true
+    return validator.isEmail(email)
   }
 }
 
@@ -12,6 +14,7 @@ describe('Email Validator', () => {
   })
 
   test('Should return false if validator return false', () => {
+    validator.isEmailValid = false
     const sut = new EmailValidator()
     const isEmailValid = sut.isValid('invalid_email@mail.com')
     expect(isEmailValid).toBe(false)
