@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --silent --noStackTrace",
+    "test": "jest --watch --silent --noStackTrace --colors",
     "test:staged": "jest --passWithNoTests --findRelatedTests --silent --noStackTrace",
     "pre-commit": "lint-staged",
-    "test:ci":"jest --coverage"
+    "test:ci":"jest --coverage --silent --noStackTrace"
   },
   "standard": {
     "env": [
