@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll",
-    "test:staged": "jest",
-    "pre-commit": "lint-staged"
+    "test": "jest --watch --silent --noStackTrace",
+    "test:staged": "jest --passWithNoTests --findRelatedTests --silent --noStackTrace",
+    "pre-commit": "lint-staged",
+    "test:ci":"jest --coverage"
   },
   "standard": {
     "env": [
