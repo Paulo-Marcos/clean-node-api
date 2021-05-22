@@ -13,6 +13,15 @@ const makeEncrypeter = () => {
   encrypterSpy.isValid = true
   return encrypterSpy
 }
+const makeEncrypterWithError = () => {
+  class EncrypterSpy {
+    async compare () {
+      throw new Error()
+    }
+  }
+
+  return new EncrypterSpy()
+}
 
 const makeTokenGenerator = () => {
   class TokenGeneratorSpy {
@@ -24,6 +33,15 @@ const makeTokenGenerator = () => {
   const tokenGeneratorSpy = new TokenGeneratorSpy()
   tokenGeneratorSpy.accessToken = 'any_token'
   return tokenGeneratorSpy
+}
+const makeTokenGeneratorWithError = () => {
+  class TokenGeneratorSpy {
+    async generate () {
+      throw new Error()
+    }
+  }
+
+  return new TokenGeneratorSpy()
 }
 
 const makeLoadUSerByEmailRepository = () => {
@@ -39,6 +57,15 @@ const makeLoadUSerByEmailRepository = () => {
     password: 'hashed_password'
   }
   return loadUserByEmailRepositorySpy
+}
+
+const makeLoadUSerByEmailRepositoryWithError = () => {
+  class LoadUserByEmailRepositorySpy {
+    async load () {
+      throw new Error()
+    }
+  }
+  return new LoadUserByEmailRepositorySpy()
 }
 const makeSut = () => {
   const encrypterSpy = makeEncrypeter()
@@ -133,6 +160,30 @@ describe('Auth UseCase', () => {
         encrypter,
         tokenGenerator: invalid
       })
+    )
+    for (const sut of suts) {
+      const promise = sut.auth('any_email@gmail.com', 'any_password')
+      await expect(promise).rejects.toThrow()
+    }
+  })
+
+  test('Should throw if any dependecy throws', async () => {
+    const loadUserByEmailRepository = makeLoadUSerByEmailRepository()
+    const encrypter = makeEncrypeter()
+    const suts = [].concat(
+      new AuthUseCase({
+        loadUserByEmailRepository: makeLoadUSerByEmailRepositoryWithError()
+      }),
+      new AuthUseCase({
+        loadUserByEmailRepository,
+        encrypter: makeEncrypterWithError()
+      }),
+      new AuthUseCase({
+        loadUserByEmailRepository,
+        encrypter,
+        tokenGenerator: makeTokenGeneratorWithError()
+      })
+
     )
     for (const sut of suts) {
       const promise = sut.auth('any_email@gmail.com', 'any_password')
